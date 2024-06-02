@@ -1,0 +1,42 @@
+{% extends 'Users/base.html' %}
+
+{% block head %}
+{% endblock head %}
+{% block body %}
+{% include 'Users/navbar.html' %}
+<main class="container my-4">
+	<!-- Featured Products -->
+	<h3 class="my-4 border-bottom pb-1">Order Items</h3>
+	<div class="row">
+		<div class="col-md-9">
+			<div class="table-responsive">
+				<table class="table-bordered table">
+					<thead>
+						<tr>
+							<th>Order Id</th>
+							<th>Username</th>
+							<th>Item</th>
+							<th>Qty</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in orderitems %}
+						<tr>
+							<td>{{item.id}}</td>
+							<td>{{item.user}}</td>
+							<td>
+								{% comment %} <p><img src="/media/{{item.image}}" width="80" /></p> {% endcomment %}
+								{{item.product}}
+							</td>
+							<td>{{item.quantity}}</td>
+							<td>{{item.price}}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}

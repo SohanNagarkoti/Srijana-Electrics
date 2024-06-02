@@ -1,0 +1,27 @@
+{% extends 'Users/base.html' %}
+{% load static %}
+{% block navbar %}
+{% include 'Users/navbar.html' %}
+{% endblock navbar %}
+{% block body %}
+<div class="container-fluid my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4 col-lg-4">
+            <div class="card">
+                <h4 class="mb-3 card-header text-center">Forgot Password</h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row g-3 card-body">
+                        <div class="col">
+                            <label for="email" class="form-label">Your Email Address</label>
+                            <input type="email" name="email" class="form-control" id="email" required
+                                autocomplete="off">
+                        </div>
+                        <button class="btn btn-primary" type="submit">Next</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

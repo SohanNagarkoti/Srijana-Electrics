@@ -1,0 +1,103 @@
+{% extends 'Users/base.html' %}
+
+{% block head %}
+{% endblock head %}
+
+{% block body %}
+{% include 'Users/navbar.html' %}
+
+<!-- Header-->
+<header class="bg-dark py-1">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Billing Info</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Enter Your Payment Info...</p>
+        </div>
+    </div>
+</header>
+<br/>
+<div class="container" style="display: flex; justify-content: space-between;">
+    {% comment %} <div class="row"> {% endcomment %}
+        <div class="col-md-3 me-4">
+            <div class="card">
+                <div class="card-header">
+                    Order Summary
+                </div>
+                <div class="card-body">
+                    {% for product in cart_products %}
+                    {{ product.name }}:
+                    {% if product.is_sale %}
+                    Rs.{{ product.sale_price }}
+                    {% else %}
+                    Rs. {{ product.price }}
+                    {% endif %}
+                    <br/>
+                    <small>Quantity:
+                        {% for key, value in quantities.items %}
+                        {% if key == product.id|slugify %}
+                        {{ value }}
+                        {% endif %}
+                        {% endfor %}
+                    </small>
+                    <br/><br/>
+                    {% endfor %}
+                    Total: Rs. {{ totals }}
+                    <br/><br/>
+                    <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
+                </div>
+            </div>
+            <br/><br/>
+        </div>
+        <div class="col-md-4 me-5">
+            <div class="card">
+                <div class="card-header">
+                    Shipping Info
+                </div>
+                <div class="card-body">
+                    Name: {{ shipping_info.shipping_full_name }}<br/>
+                    Email: {{ shipping_info.shipping_email }}<br/>
+                    Address 1: {{ shipping_info.shipping_address1 }}<br/>
+                    Address 2: {{ shipping_info.shipping_address2 }}<br/>
+                    City: {{ shipping_info.shipping_city }}<br/>
+                    State: {{ shipping_info.shipping_state }}<br/>
+                    Zipcode: {{ shipping_info.shipping_zipcode }}<br/>
+                    Country: {{ shipping_info.shipping_country }}<br/>
+                    <br/>
+                    <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Update Shipping</a>
+                </div>
+            </div>
+            <br/><br/>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Billing Info
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'process_order' %}">
+                        {% csrf_token %}
+                        {{ billing_form.as_p }}
+                        <button type="submit" class="btn btn-secondary">Pay Now</button>
+                    </form>
+                </div>
+            </div>
+            <br/><br/>
+        </div>
+    {% comment %} </div> {% endcomment %}
+</div>
+
+<br/><br/>
+
+{% comment %} <div class="btn btn-primary mt-2">
+    <form action="{% url 'khalti' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="purchase_order_id" value="{{ uid }}" id="pid">
+        <input type="hidden" name="amount" value="1000" id="amt">
+        <input type="hidden" name="return_url" value="http://127.0.0.1:8000/cart/verify" id="">
+        <button type="submit" class="btn btn-primary" value="Pay With Khalti" name="" id="">Pay Now</button>
+    </form>
+</div>
+
+<br/><br/> {% endcomment %}
+
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends 'Users/base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'Users\home.css' %}">
+{% endblock head %}
+
+{% block navbar %}
+{% include 'Users/navbar.html' %}
+{% endblock navbar %}
+{% block body %}
+
+
+<div class="title-product text-center" >
+    <h5>OUR PRODUCTS</h5>
+</div>
+<div class="container mt-5">
+    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 row-cols-lg-4 justify-content">
+        {% for product in products %}
+        <div class="col mb-5" style="max-width: 350px;">
+            <div class="card h-100">
+                {% if product.is_sale %}
+                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                {% endif %}
+                <!-- Product image-->
+                <img class="card-img-top image" src="{{ product.image.url }}" alt="..."
+                    style="width: auto; max-height: 250px; padding: 10px;" />
+                <!-- Product details-->
+                <div class="card-body p-4" style="background-color: rgb(203, 203, 203);">
+                    <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder">{{ product.name }}</h5>
+                        <!-- Product reviews-->
+                        <!-- <div class="d-flex justify-content-center small text-warning mb-2">
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                            <div class="bi-star-fill"></div>
+                        </div> -->
+                        <!-- Product price-->
+                        {% if product.is_sale %}
+                        <span class="text-muted text-decoration-line-through">Rs.{{ product.price }}</span>&nbsp;
+                        
+                        <strong><span>Rs.{{ product.sale_price }}</span></strong>   
+                        {% else %}
+                        Rs.{{ product.price }}
+                        {% endif %}
+                        <br>
+                        <div class="box-element product d-flex align-items-center justify-content-evenly"
+                            style="padding-top: 30px;">
+                            <button class="btn btn-outline-secondary" type="button" value="{{ product.id }}"
+                                id="add-cart">
+                                <i class="bi-cart-fill me-1"></i>
+                                <span style="font-size:12px">Add to Cart</span>
+                            </button>
+                            <a class="btn btn-outline-success" style="font-size:15px" href="{% url 'product' product.id %}">View Product</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+<hr>
+
+<div id="aboutus" class="container-fluid bg-white mt-5">
+    <div class="row">
+        <div class="col-lg-4 p-4">
+            <h3 class="h-font fw-bold fs-4 mb-2">SRIJANA ELECTRICS</h3>
+            <p>
+                Welcome to Srijana Electric, your gateway to all things tech. Explore our curated collection of
+                cutting-edge gadgets and electronics, designed to elevate your everyday life. With personalized service
+                and top-notch amenities, we're here to make your shopping experience unforgettable. Dive into innovation
+                and convenience at Srijana Electric - where every visit sparks excitement.
+            </p>
+        </div>
+
+        <div class="col-lg-4 p-4">
+            <H5 class="mb-3">Links</H5>
+            <a href="#home" class="d-inline-block mb-2 text-dark text-decoration-none">HOME</a><br>
+            <a href="#facilities" class="d-inline-block mb-2 text-dark text-decoration-none">FACILITIES</a><br>
+            <a href="#rooms" class="d-inline-block mb-2 text-dark text-decoration-none">PRODUCTS</a><br>
+            <a href="#contactus" class="d-inline-block mb-2 text-dark text-decoration-none">CONTACT US</a><br>
+            <a href="#aboutus" class="d-inline-block mb-2 text-dark text-decoration-none">ABOUT US</a>
+        </div>
+
+        <div class="col-lg-4 p-4">
+            <h5 class="mb-4">Follow US</h5>
+            <a href="#" class="d-inline-block text-dark text-decoration-none mb-2">
+                <i class="bi bi-facebook me-1"></i> Facebook
+            </a><br>
+            <a href="#" class="d-inline-block text-dark text-decoration-none mb-2">
+                <i class="bi bi-twitter-x me-1"></i> Twitter
+            </a><br>
+            <a href="#" class="d-inline-block text-dark text-decoration-none">
+                <i class="bi bi-instagram me-1"></i> Instagram
+            </a><br>
+        </div>
+
+    </div>
+</div>
+
+<h6 class="text-center bg-dark text-white p-4 m-0">Designed and Developed by Sohan Nagarkoti</h6>
+
+
+{% block scripts %}
+
+
+
+<script>
+    $(document).on('click', '#add-cart', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_add' %}',
+            data: {
+                product_id: $('#add-cart').val(),
+                {% comment %} product_qty: $('#qty-cart option:selected').text(), {% endcomment %}
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        action: 'post'
+            },
+
+        success: function (json) {
+            {% comment %} console.log(json) {% endcomment %}
+            {% comment %} document.getElementById("cart_quantity").textContent = json.qty {% endcomment %}
+            location.reload();
+        },
+
+        error: function (xhr, errmsg, err) {
+
+        }
+        });
+    })
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+{% endblock scripts %}
+
+{% endblock body %}

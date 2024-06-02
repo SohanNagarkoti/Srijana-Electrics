@@ -1,0 +1,48 @@
+/* Custom CSS for Checkout Page */
+
+/* Header */
+.bg-dark {
+    padding-top: 80px;
+    /* Increased padding for header */
+    padding-bottom: 80px;
+}
+
+/* Card Header */
+.card-header {
+    border-radius: 0;
+    /* Remove border radius for card headers */
+}
+
+/* Card Body */
+.card-body {
+    font-size: 16px;
+    /* Increase font size for better readability */
+}
+
+/* Shipping Info Form */
+#shipping-form {
+    padding: 20px;
+    border: 1px solid #ddd;
+    /* Add border to shipping info form */
+    border-radius: 5px;
+    /* Add border radius to shipping info form */
+}
+
+/* Continue To Billing Button */
+.btn-secondary {
+    width: 100%;
+    /* Full width button */
+    border-radius: 5px;
+    /* Add border radius to button */
+    background-color: #007bff;
+    /* Button background color */
+    border-color: #007bff;
+    /* Button border color */
+}
+
+.btn-secondary:hover {
+    background-color: #0056b3;
+    /* Button background color on hover */
+    border-color: #0056b3;
+    /* Button border color on hover */
+}
